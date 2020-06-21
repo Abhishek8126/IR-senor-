@@ -1,17 +1,33 @@
-#include<Servo.h>
-Servo motor1;
+
+#include <IRremote.h>
+
+int IRpin = 11;
+IRrecv irrecv(IRpin);
+decode_results results;
+
 
 void setup()
 {
- motor1.attach(2);
- pinMode(2,INPUT);
- Serial.begin(9600);
+  Serial.begin(9600);
+  Serial.print("hello");
+  irrecv.enableIRIn(); // Start the receiver
+  pinMode(9,OUTPUT);
+  pinMode(3,OUTPUT);
+  pinMode(10,OUTPUT);
+  digitalWrite(9, HIGH);
+  digitalWrite(10, LOW);
+
 }
+void loop()
 
-void loop() 
 {
-  Serial.println("IR is");
-  Serial.println(digitalRead(2));
-  delay(1000);
+  int a;
+  if (irrecv.decode(&results))
+  {
+    Serial.println(results.value);
+    delay(10);
 
+    irrecv.resume();
+
+ }
 }
